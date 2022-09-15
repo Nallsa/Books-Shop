@@ -6,8 +6,8 @@ const app = express()
 app.use(express.json())
 
 app.use(require('./routes/users.route'))
-// app.use(require('./routes/comments.route'))
-// app.use(require('./routes/users.route'))
+app.use(require('./routes/genres.route'))
+app.use(require('./routes/books.route'))
 
 mongoose
   .connect(

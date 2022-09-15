@@ -12,7 +12,8 @@ const userSchema = mongoose.Schema({
   books: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'books',
+      ref: 'Books',
+      
     },
   ],
 })
