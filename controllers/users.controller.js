@@ -1,5 +1,6 @@
 const Users = require('../models/Users.model')
 const Books = require('../models/Books.model')
+const { trusted } = require('mongoose')
 // const Review = require("../models/Reviews.model");
 
 module.exports.usersController = {
@@ -73,6 +74,22 @@ module.exports.usersController = {
       const usersPatch = await Users.findByIdAndUpdate(clientID, {
         $pull: { books: req.params.id },
       })
+      res.json(usersPatch)
+    } catch (err) {
+      res.json(err)
+    }
+  },
+  adminBlock: async (req, res) => {
+    try {
+      const { clientID } = req.body
+      await Books.findByIdAndUpdate(req.params.id, {
+        booksRental: null,
+      })
+      const usersPatch = await Users.findByIdAndUpdate(clientID, {
+        books: [],
+        isBlocked: true,
+      })
+
       res.json(usersPatch)
     } catch (err) {
       res.json(err)

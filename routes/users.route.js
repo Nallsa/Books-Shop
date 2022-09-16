@@ -8,5 +8,6 @@ router.post('/users', usersController.postUsers)
 router.patch('/users/:id', usersController.patchUsers)
 router.patch('/users/books/:id', usersController.addBooks)
 router.delete('/users/books/:id', usersController.delBooks)
+router.patch('/admin/:id', usersController.adminBlock)
 
 module.exports = router
