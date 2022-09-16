@@ -38,16 +38,16 @@ module.exports.usersController = {
     try {
       const { clientID } = req.body
       const client = await Users.findById(clientID)
-      if (!client.isBlocked) {
+      if (client.isBlocked !== true) {
         const books = await Books.findById(req.params.id)
-        if (!books.bookRental) {
+        if (!books.booksRental) {
           const client = await Users.findById(clientID)
           if (client.books.length < 3) {
             await Users.findByIdAndUpdate(clientID, {
               $addToSet: { books: req.params.id },
             })
             await Books.findByIdAndUpdate(req.params.id, {
-              bookRental: clientID,
+              booksRental: clientID,
             })
             res.json('Книга арендована')
           } else {
@@ -65,10 +65,12 @@ module.exports.usersController = {
   },
   delBooks: async (req, res) => {
     try {
+      const { clientID } = req.body
+
       await Books.findByIdAndUpdate(req.params.id, {
-        bookRental: null,
+        booksRental: null,
       })
-      const usersPatch = await Users.findByIdAndUpdate(req.params.id, {
+      const usersPatch = await Users.findByIdAndUpdate(clientID, {
         $pull: { books: req.params.id },
       })
       res.json(usersPatch)
@@ -79,7 +81,6 @@ module.exports.usersController = {
   getUsers: async (req, res) => {
     try {
       const userGet = await Users.find().populate(['books'])
-      console.log(userGet)
       res.json(userGet)
       log
     } catch (e) {

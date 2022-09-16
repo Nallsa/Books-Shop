@@ -9,7 +9,7 @@ const booksSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Genres',
   },
-  bookRental: {
+  booksRental: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Users',
   },
